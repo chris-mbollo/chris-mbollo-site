@@ -337,3 +337,88 @@ section + section { border-top: 1px solid var(--rule); }
 }
 .status-shipped { color: var(--oxblood); }
 .status-progress { color: var(--graphite); }
+
+/* ===== Watch ===== */
+.video-frame {
+  background: rgba(20, 20, 20, 0.04);
+  border: 1px solid rgba(20, 20, 20, 0.06);
+  padding: 0.5rem;
+  border-radius: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.video-embed {
+  border-radius: calc(1.5rem - 0.5rem);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: var(--ink);
+}
+.video-embed iframe { width: 100%; height: 100%; border: 0; display: block; }
+.watch-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.watch-link a { color: var(--ink); border-bottom: 1px solid var(--ink); padding-bottom: 2px; }
+.watch-link a:hover { color: var(--oxblood); border-bottom-color: var(--oxblood); text-decoration: none; }
+
+/* ===== Newsletter band ===== */
+.band {
+  background: var(--ink);
+  color: var(--paper);
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+  border-top: 0;
+}
+.band + section { border-top: 0; }
+.band-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: end;
+}
+.band-copy { grid-column: 1 / span 7; }
+.band-title {
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  line-height: 1.05;
+  font-weight: 500;
+  color: var(--paper);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+.band-sub { color: rgba(247, 245, 240, 0.7); max-width: 50ch; }
+.capture-band { grid-column: 8 / span 5; }
+
+/* ===== Footer ===== */
+.footer {
+  padding: clamp(3rem, 6vw, 4rem) var(--gutter);
+  max-width: var(--max);
+  margin: 0 auto;
+  border-top: 1px solid var(--rule);
+}
+.footer-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2rem;
+  align-items: center;
+}
+.footer-brand { font-family: var(--font-display); font-size: 1.125rem; }
+.footer-links {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.footer-links a { color: var(--graphite); }
+.footer-links a:hover { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink); }
