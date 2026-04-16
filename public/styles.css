@@ -1,0 +1,115 @@
+/* ===== Tokens ===== */
+:root {
+  --paper: #F7F5F0;
+  --ink: #141414;
+  --graphite: #5B5B58;
+  --rule: rgba(20, 20, 20, 0.1);
+  --oxblood: #6B1F2A;
+  --paper-15: rgba(247, 245, 240, 0.15);
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Geist", system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --reveal-dur: 800ms;
+  --hover-dur: 320ms;
+
+  --max: 1280px;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --section-y: clamp(5rem, 12vw, 9rem);
+}
+
+/* ===== Reset ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--oxblood); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+button { font: inherit; cursor: pointer; border: 0; background: none; }
+input, button { font-family: inherit; }
+h1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: 500; letter-spacing: -0.01em; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+/* ===== Grain overlay ===== */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  background-image: url("/assets/grain.svg");
+  background-size: 200px 200px;
+  opacity: 0.04;
+  mix-blend-mode: multiply;
+}
+
+/* ===== Eyebrow ===== */
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--graphite);
+  padding: 0.375rem 0.75rem;
+  background: rgba(20, 20, 20, 0.04);
+  border-radius: 999px;
+  margin: 0 0 1.5rem;
+}
+.eyebrow-paper {
+  color: var(--paper);
+  background: rgba(247, 245, 240, 0.1);
+}
+
+/* ===== Container + section rhythm ===== */
+main { display: block; }
+section {
+  padding: var(--section-y) var(--gutter);
+  max-width: var(--max);
+  margin: 0 auto;
+  position: relative;
+}
+section + section { border-top: 1px solid var(--rule); }
+
+/* ===== Section titles ===== */
+.section-title {
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  line-height: 1.1;
+  max-width: 20ch;
+  margin-bottom: 3rem;
+}
+
+/* ===== Reveal (JS adds .is-visible) ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(64px);
+  filter: blur(8px);
+  transition:
+    opacity var(--reveal-dur) var(--ease),
+    transform var(--reveal-dur) var(--ease),
+    filter var(--reveal-dur) var(--ease);
+  will-change: transform, opacity;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; filter: none; transition: none; }
+  * { animation: none !important; transition: none !important; }
+}
