@@ -1,3 +1,100 @@
+// ===== Nav: hamburger morph + panel =====
+const burger = document.querySelector(".nav-burger");
+const panel = document.getElementById("nav-panel");
+if (burger && panel) {
+  const close = () => {
+    burger.setAttribute("aria-expanded", "false");
+    panel.classList.remove("is-open");
+    setTimeout(() => { if (burger.getAttribute("aria-expanded") === "false") panel.hidden = true; }, 320);
+    document.body.style.overflow = "";
+  };
+  const open = () => {
+    panel.hidden = false;
+    requestAnimationFrame(() => panel.classList.add("is-open"));
+    burger.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  };
+  burger.addEventListener("click", () => {
+    (burger.getAttribute("aria-expanded") === "true" ? close : open)();
+  });
+  panel.querySelectorAll("a").forEach((a) => a.addEventListener("click", close));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && burger.getAttribute("aria-expanded") === "true") close();
+  });
+}
+
+// ===== Rail: active dot on scroll =====
+const rail = document.querySelector(".rail");
+if (rail && "IntersectionObserver" in window) {
+  const dots = new Map();
+  rail.querySelectorAll(".rail-dot").forEach((d) => dots.set(d.dataset.section, d));
+  const sections = ["hero", "thesis", "tests", "work", "subscribe"]
+    .map((id) => (id === "hero" ? document.querySelector(".hero") : document.getElementById(id)))
+    .filter(Boolean);
+  const setActive = (id) => {
+    const target = id === "hero" ? "top" : id;
+    dots.forEach((dot, key) => dot.classList.toggle("is-active", key === target));
+  };
+  const navLinks = document.querySelectorAll(".nav-links a");
+  const setNavActive = (id) => {
+    navLinks.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === `#${id}`));
+  };
+  const railIO = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter((e) => e.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      const id = visible.target.id || (visible.target.classList.contains("hero") ? "hero" : "");
+      if (id) {
+        setActive(id);
+        setNavActive(id);
+        document.body.classList.toggle("rail-on-dark", id === "subscribe");
+      }
+    },
+    { threshold: [0.25, 0.5, 0.75], rootMargin: "-20% 0px -40% 0px" }
+  );
+  sections.forEach((s) => railIO.observe(s));
+}
+
+// ===== Cursor: ambient spotlight + plaque radial =====
+if (matchMedia("(pointer: fine)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  document.body.classList.add("has-cursor");
+  const root = document.documentElement;
+  window.addEventListener("pointermove", (e) => {
+    root.style.setProperty("--cx", `${e.clientX}px`);
+    root.style.setProperty("--cy", `${e.clientY}px`);
+  });
+  document.querySelectorAll("[data-spotlight]").forEach((el) => {
+    el.addEventListener("pointermove", (e) => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty("--mx", `${e.clientX - r.left}px`);
+      el.style.setProperty("--my", `${e.clientY - r.top}px`);
+    });
+  });
+}
+
+// ===== Magnetic buttons =====
+if (matchMedia("(pointer: fine)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const strength = 0.25;
+  const max = 8;
+  document.querySelectorAll("[data-magnetic]").forEach((el) => {
+    el.addEventListener("pointermove", (e) => {
+      const r = el.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height / 2);
+      const mx = Math.max(-max, Math.min(max, dx * strength));
+      const my = Math.max(-max, Math.min(max, dy * strength));
+      el.style.setProperty("--mag-x", `${mx}px`);
+      el.style.setProperty("--mag-y", `${my}px`);
+    });
+    el.addEventListener("pointerleave", () => {
+      el.style.setProperty("--mag-x", "0px");
+      el.style.setProperty("--mag-y", "0px");
+    });
+  });
+}
+
 // ===== Reveal on scroll =====
 const revealTargets = document.querySelectorAll("section, .project, .test");
 revealTargets.forEach((el) => el.classList.add("reveal"));

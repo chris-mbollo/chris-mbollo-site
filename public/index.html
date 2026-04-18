@@ -23,10 +23,55 @@
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
+  <div class="spotlight" aria-hidden="true"></div>
 
-  <main>
+  <!-- NAV: Floating glass pill -->
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-inner">
+      <a class="nav-brand" href="#top" aria-label="Chris Mbollo, top of page">
+        <span class="nav-brand-mark">CM</span>
+        <span class="nav-brand-name">Chris Mbollo</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#thesis">Thesis</a></li>
+        <li><a href="#tests">Tests</a></li>
+        <li><a href="#work">Work</a></li>
+      </ul>
+      <a class="nav-cta" href="#subscribe">
+        <span class="btn-label">Subscribe</span>
+        <span class="btn-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17L17 7M8 7h9v9" />
+          </svg>
+        </span>
+      </a>
+      <button class="nav-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-panel">
+        <span class="nav-burger-bar"></span>
+        <span class="nav-burger-bar"></span>
+      </button>
+    </div>
+    <div class="nav-panel" id="nav-panel" hidden>
+      <ul class="nav-panel-links">
+        <li style="--i:0"><a href="#thesis">Thesis</a></li>
+        <li style="--i:1"><a href="#tests">Tests</a></li>
+        <li style="--i:2"><a href="#work">Work</a></li>
+        <li style="--i:3"><a href="#subscribe">Subscribe</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- RAIL: Fixed scroll progress dots -->
+  <aside class="rail" aria-label="Section progress">
+    <a class="rail-dot" href="#top" data-section="top" aria-label="Top"><span></span></a>
+    <a class="rail-dot" href="#thesis" data-section="thesis" aria-label="Thesis"><span></span></a>
+    <a class="rail-dot" href="#tests" data-section="tests" aria-label="Tests"><span></span></a>
+    <a class="rail-dot" href="#work" data-section="work" aria-label="Work"><span></span></a>
+    <a class="rail-dot" href="#subscribe" data-section="subscribe" aria-label="Subscribe"><span></span></a>
+  </aside>
+
+  <main id="top">
     <!-- HERO: Editorial Split, inline portrait -->
-    <section class="hero">
+    <section class="hero" id="hero">
       <div class="hero-inner">
         <p class="eyebrow">Build &amp; Own</p>
         <h1 class="hero-headline">
@@ -41,7 +86,7 @@
           <label for="hero-email" class="capture-label">Get Build &amp; Own. Tuesdays. Under 500 words.</label>
           <div class="capture-row">
             <input id="hero-email" type="email" name="email" required autocomplete="email" placeholder="you@work.com" />
-            <button type="submit" class="btn-primary">
+            <button type="submit" class="btn-primary" data-magnetic>
               <span class="btn-label">Subscribe</span>
               <span class="btn-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -56,18 +101,18 @@
     </section>
 
     <!-- THESIS -->
-    <section class="thesis">
+    <section class="thesis" id="thesis">
       <p class="eyebrow">The Thesis</p>
       <h2 class="section-title">Content vs. Capital</h2>
       <div class="prose">
-        <p>Most of what the internet calls a creator business is not a business. It is a job that rents its customers from a platform, and it stops paying the moment the camera turns off. Call this Tier 3, the platform tier, where the money and the reach both belong to someone else.</p>
+        <p class="lede"><span class="dropcap">M</span>ost of what the internet calls a creator business is not a business. It is a job that rents its customers from a platform, and it stops paying the moment the camera turns off. Call this Tier 3, the platform tier, where the money and the reach both belong to someone else.</p>
         <p>One rung up is the knowledge tier, Tier 2, where a creator sells a course, a cohort, or a community. The ceiling is higher and the margins are better. The economics still depend on the creator continuing to show up, so the income still slows the moment attention does.</p>
         <p>The top tier is capital. Software, directories, tools, the kinds of assets that run when nobody is watching. The margin is the point. AI collapsed the cost of building these assets by roughly ninety percent. What used to need a team of engineers now needs a writer with taste and a week of discipline. That is what this site documents.</p>
       </div>
     </section>
 
     <!-- THREE INVESTOR TESTS -->
-    <section class="tests">
+    <section class="tests" id="tests">
       <p class="eyebrow">Three Investor Tests</p>
       <h2 class="section-title">What separates income from capital</h2>
 
@@ -97,12 +142,12 @@
     </section>
 
     <!-- THE WORK: zig-zag, Double-Bezel -->
-    <section class="work">
+    <section class="work" id="work">
       <p class="eyebrow">The Work</p>
       <h2 class="section-title">What I am building right now</h2>
 
       <article class="project project-left">
-        <div class="project-shell">
+        <div class="project-shell" data-spotlight>
           <div class="project-core">
             <div class="project-plaque">
               <span class="plaque-label">Project</span>
@@ -118,7 +163,7 @@
       </article>
 
       <article class="project project-right">
-        <div class="project-shell">
+        <div class="project-shell" data-spotlight>
           <div class="project-core">
             <div class="project-copy">
               <p class="status status-shipped">Shipped</p>
@@ -134,7 +179,7 @@
       </article>
 
       <article class="project project-left">
-        <div class="project-shell">
+        <div class="project-shell" data-spotlight>
           <div class="project-core">
             <div class="project-plaque">
               <span class="plaque-label">Project</span>
@@ -151,7 +196,7 @@
     </section>
 
     <!-- NEWSLETTER BAND: Editorial Split, dark -->
-    <section class="band">
+    <section class="band" id="subscribe">
       <div class="band-inner">
         <div class="band-copy">
           <p class="eyebrow eyebrow-paper">Newsletter</p>
@@ -162,7 +207,7 @@
           <label for="band-email" class="capture-label capture-label-paper">Your best email</label>
           <div class="capture-row">
             <input id="band-email" type="email" name="email" required autocomplete="email" placeholder="you@work.com" />
-            <button type="submit" class="btn-primary btn-paper">
+            <button type="submit" class="btn-primary btn-paper" data-magnetic>
               <span class="btn-label">Subscribe</span>
               <span class="btn-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -178,6 +223,10 @@
 
     <!-- FOOTER -->
     <footer class="footer">
+      <div class="footer-signature" aria-hidden="true">
+        <span class="footer-flourish">Build &amp; Own</span>
+        <span class="footer-vol">Vol. 01</span>
+      </div>
       <div class="footer-inner">
         <p class="footer-brand">Chris Mbollo</p>
         <ul class="footer-links">
