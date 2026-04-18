@@ -273,6 +273,18 @@ section + section { border-top: 1px solid var(--rule); }
 .thesis .prose p + p { margin-top: 1.25em; }
 .thesis .prose p { color: var(--ink); }
 
+/* ===== Statistical emphasis ===== */
+.stat {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-style: normal;
+  color: var(--oxblood);
+  letter-spacing: -0.005em;
+  font-variant-numeric: tabular-nums;
+  font-size: 1.08em;
+  line-height: inherit;
+}
+
 /* ===== Investor Tests ===== */
 .tests .test {
   display: grid;
@@ -427,7 +439,8 @@ section + section { border-top: 1px solid var(--rule); }
   font-family: var(--font-display);
   font-size: 1.125rem;
   font-weight: 500;
-  color: var(--ink);
+  color: var(--oxblood);
+  font-variant-numeric: tabular-nums;
 }
 .service-cta {
   justify-self: start;
