@@ -35,6 +35,42 @@ if (marqTrack && marqFirst) {
   updateMarq(window.scrollY);
 }
 
+// ===== Booking modal: lazy iframe load =====
+const bookModal = document.getElementById("book-modal");
+if (bookModal) {
+  const iframe = bookModal.querySelector("[data-book-iframe]");
+  const iframeSrc = iframe ? iframe.getAttribute("data-src") : null;
+  let lastFocus = null;
+  const openBook = () => {
+    lastFocus = document.activeElement;
+    bookModal.hidden = false;
+    requestAnimationFrame(() => bookModal.classList.add("is-open"));
+    bookModal.setAttribute("aria-hidden", "false");
+    if (iframe && iframeSrc && !iframe.src) iframe.src = iframeSrc;
+    if (lenis) lenis.stop(); else document.body.style.overflow = "hidden";
+    const close = bookModal.querySelector(".book-close");
+    if (close) close.focus();
+  };
+  const closeBook = () => {
+    bookModal.classList.remove("is-open");
+    bookModal.setAttribute("aria-hidden", "true");
+    setTimeout(() => {
+      if (!bookModal.classList.contains("is-open")) bookModal.hidden = true;
+    }, 320);
+    if (lenis) lenis.start(); else document.body.style.overflow = "";
+    if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+  };
+  document.querySelectorAll("[data-book-trigger]").forEach((b) =>
+    b.addEventListener("click", openBook)
+  );
+  bookModal.querySelectorAll("[data-book-close]").forEach((b) =>
+    b.addEventListener("click", closeBook)
+  );
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && bookModal.classList.contains("is-open")) closeBook();
+  });
+}
+
 // ===== Nav: hamburger morph + panel =====
 const burger = document.querySelector(".nav-burger");
 const panel = document.getElementById("nav-panel");
