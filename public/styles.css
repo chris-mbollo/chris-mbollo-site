@@ -312,13 +312,32 @@ section + section { border-top: 1px solid var(--rule); }
 .project-right .project-core {
   grid-template-columns: minmax(0, 1fr) minmax(0, 220px);
 }
-.project-image {
+.project-plaque {
   border-radius: 0.75rem;
-  overflow: hidden;
   aspect-ratio: 1 / 1;
-  background: rgba(20, 20, 20, 0.04);
+  background: rgba(20, 20, 20, 0.03);
+  border: 1px solid rgba(20, 20, 20, 0.06);
+  display: grid;
+  align-content: space-between;
+  padding: clamp(1rem, 2vw, 1.5rem);
 }
-.project-image img { width: 100%; height: 100%; object-fit: cover; }
+.plaque-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--graphite);
+}
+.plaque-numeral {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(5rem, 9vw, 7.5rem);
+  line-height: 0.9;
+  color: var(--oxblood);
+  letter-spacing: -0.04em;
+  align-self: end;
+  justify-self: end;
+}
 .project-name {
   font-size: clamp(1.5rem, 2.5vw, 2rem);
   margin: 0.75rem 0 0.75rem;
@@ -337,34 +356,6 @@ section + section { border-top: 1px solid var(--rule); }
 }
 .status-shipped { color: var(--oxblood); }
 .status-progress { color: var(--graphite); }
-
-/* ===== Watch ===== */
-.video-frame {
-  background: rgba(20, 20, 20, 0.04);
-  border: 1px solid rgba(20, 20, 20, 0.06);
-  padding: 0.5rem;
-  border-radius: 1.5rem;
-  max-width: 900px;
-  margin: 0 auto;
-}
-.video-embed {
-  border-radius: calc(1.5rem - 0.5rem);
-  overflow: hidden;
-  aspect-ratio: 16 / 9;
-  background: var(--ink);
-}
-.video-embed iframe { width: 100%; height: 100%; border: 0; display: block; }
-.watch-link {
-  text-align: center;
-  margin-top: 1.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--graphite);
-}
-.watch-link a { color: var(--ink); border-bottom: 1px solid var(--ink); padding-bottom: 2px; }
-.watch-link a:hover { color: var(--oxblood); border-bottom-color: var(--oxblood); text-decoration: none; }
 
 /* ===== Newsletter band ===== */
 .band {
@@ -444,7 +435,7 @@ section + section { border-top: 1px solid var(--rule); }
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-  .project-image { max-width: 220px; }
+  .project-plaque { max-width: 220px; }
 
   .band-inner { grid-template-columns: 1fr; }
   .band-copy, .capture-band { grid-column: 1 / -1; }

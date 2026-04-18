@@ -19,25 +19,6 @@ if ("IntersectionObserver" in window) {
   revealTargets.forEach((el) => el.classList.add("is-visible"));
 }
 
-// ===== Lazy YouTube embed =====
-const iframe = document.querySelector("iframe[data-video-id]");
-if (iframe) {
-  const videoId = iframe.dataset.videoId;
-  if (videoId && videoId !== "REPLACE_WITH_YOUTUBE_VIDEO_ID") {
-    const io2 = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1`;
-          io2.unobserve(iframe);
-        }
-      });
-    }, { rootMargin: "200px" });
-    io2.observe(iframe);
-  } else {
-    iframe.closest("section").hidden = true;
-  }
-}
-
 // ===== Subscribe forms =====
 document.querySelectorAll("form.capture").forEach((form) => {
   const feedback = form.querySelector(".capture-feedback");
