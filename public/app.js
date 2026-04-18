@@ -1,3 +1,40 @@
+// ===== Lenis smooth-scroll (progressive enhancement) =====
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let lenis = null;
+if (!reduceMotion) {
+  try {
+    const { default: Lenis } = await import("https://cdn.jsdelivr.net/npm/lenis@1.1.14/+esm");
+    lenis = new Lenis({
+      lerp: 0.09,
+      wheelMultiplier: 1,
+      smoothWheel: true,
+    });
+    const raf = (time) => { lenis.raf(time); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+  } catch (e) { /* graceful fallback to native scroll */ }
+}
+
+const onScroll = (cb) => {
+  if (lenis) lenis.on("scroll", ({ scroll }) => cb(scroll));
+  else window.addEventListener("scroll", () => cb(window.scrollY), { passive: true });
+};
+
+// ===== Marquee: scroll-linked horizontal drift =====
+const marqTrack = document.querySelector(".marquee-track");
+const marqFirst = marqTrack ? marqTrack.querySelector(".marquee-content") : null;
+if (marqTrack && marqFirst) {
+  let baseW = marqFirst.offsetWidth;
+  const remeasure = () => { baseW = marqFirst.offsetWidth; };
+  window.addEventListener("resize", remeasure);
+  window.addEventListener("load", remeasure);
+  const updateMarq = (y) => {
+    const x = -((y * 0.35) % baseW);
+    marqTrack.style.setProperty("--marq-x", `${x}px`);
+  };
+  onScroll(updateMarq);
+  updateMarq(window.scrollY);
+}
+
 // ===== Nav: hamburger morph + panel =====
 const burger = document.querySelector(".nav-burger");
 const panel = document.getElementById("nav-panel");
