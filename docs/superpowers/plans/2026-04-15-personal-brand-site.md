@@ -1,5 +1,7 @@
 # Chris Mbollo Personal Brand Site — Implementation Plan
 
+> **Status 2026-04-18:** Plan executed. Task 2 (Supabase schema) was discarded and the `api/subscribe.js` implementation was later pivoted from Supabase + Resend to the Beehiiv API, since Chris's newsletter list already lives in Beehiiv at www.chrismbollo.com. Any Supabase/Resend code below is a historical artifact; see the spec doc and `api/subscribe.js` for the current contract.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Ship a single-page personal brand site at `/Users/macbookpro/chris-mbollo-site/` that captures newsletter subscribers and showcases Chris's thesis and work, matching the editorial-luxury design language in DESIGN.md.

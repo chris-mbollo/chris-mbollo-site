@@ -19,7 +19,7 @@ Everything else on the page (thesis, investor tests, work showcase, video) exist
 - **Single-page site.** One scroll. Anchor links for in-page navigation. No multi-page routing.
 - **Vanilla HTML/CSS/JS.** Zero build step. Edit `public/index.html` directly. Same model as DealHawk.
 - **Hosting:** Vercel static + serverless functions in `api/`.
-- **Newsletter capture:** one Vercel serverless function (`api/subscribe.js`) that writes to a Supabase table and triggers a welcome email via Resend. Owning the list in Supabase is the "Build & Own" thesis applied to the site itself, no vendor lock to a newsletter provider.
+- **Newsletter capture:** one Vercel serverless function (`api/subscribe.js`) that proxies to the Beehiiv API. The list already lives in Beehiiv under www.chrismbollo.com, so the site replaces the Beehiiv-hosted landing page while preserving the existing subscriber base. Beehiiv also handles the welcome email.
 - **No CMS, no React, no Next.js.** Content changes are direct edits to `public/index.html`.
 
 ## 3. Page Sections (top to bottom)
@@ -82,21 +82,14 @@ Authoritative visual source: [DESIGN.md](../../../DESIGN.md) at project root. Im
 ## 5. Data & API Contracts
 
 ### 5.1 `POST /api/subscribe`
-- Request body: `{ email: string }`
-- Validation: RFC-5322 shape, server-side.
-- Side effects:
-  1. Upsert row into Supabase `subscribers` table (columns: `email`, `source`, `created_at`).
-  2. Fire welcome email via Resend.
+- Request body: `{ email: string, source?: string }`
+- Validation: RFC-5322 shape, server-side. `source` clamped to 64 chars.
+- Side effect: `POST https://api.beehiiv.com/v2/publications/{id}/subscriptions` with `reactivate_existing: true`, `send_welcome_email: true`, `utm_source: <source>`, `utm_medium: "website"`.
 - Response:
   - `200 { ok: true }` on success
   - `400 { error: "invalid_email" }` on validation failure
-  - `500 { error: "server_error" }` on downstream failure
-
-### 5.2 Supabase table `subscribers`
-- `id uuid primary key default gen_random_uuid()`
-- `email text unique not null`
-- `source text default 'site_hero'`
-- `created_at timestamptz default now()`
+  - `502 { error: "server_error" }` on Beehiiv non-2xx
+  - `500 { error: "server_error" }` on missing env or thrown fetch
 
 ## 6. Security (pre-launch audit per CLAUDE.md)
 
@@ -104,7 +97,7 @@ Authoritative visual source: [DESIGN.md](../../../DESIGN.md) at project root. Im
 - No `innerHTML` with unescaped data anywhere.
 - No unbounded AI proxy on this project (no AI endpoints at all in v1).
 - CORS: same-origin only on `/api/subscribe`.
-- Environment variables: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`. Never exposed to client.
+- Environment variables: `BEEHIIV_API_KEY`, `BEEHIIV_PUBLICATION_ID`. Never exposed to client. Beehiiv handles subscriber storage and welcome email.
 
 ## 7. Out of Scope (v1)
 
@@ -113,14 +106,14 @@ Authoritative visual source: [DESIGN.md](../../../DESIGN.md) at project root. Im
 - RSS, sitemap beyond basic.
 - Dark mode.
 - Multiple languages.
-- Admin UI for managing subscribers (query Supabase directly).
+- Admin UI for managing subscribers (manage directly in Beehiiv).
 - Showcasing projects beyond the three listed.
 
 ## 8. Acceptance Criteria
 
 1. Page loads on mobile and desktop with no console errors.
 2. Lighthouse Performance score ≥ 90 on desktop.
-3. Email submit writes to Supabase and triggers a Resend email end-to-end.
+3. Email submit posts to Beehiiv and triggers its welcome email end-to-end.
 4. No em dashes in any copy.
 5. All three projects render as specified.
 6. Footer links open in new tab where external.

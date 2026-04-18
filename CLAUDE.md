@@ -7,7 +7,9 @@ Vanilla HTML/CSS/JS + Vercel serverless. No build step. Edit public/index.html d
 - public/ — static assets served at root
 - api/ — Vercel serverless functions (Node 20)
 - api/_lib/ — shared modules (prefixed underscore so Vercel does not expose them as routes)
-- supabase/schema.sql — database schema, applied manually in Supabase dashboard
+
+## Newsletter
+Subscribe endpoint (`api/subscribe.js`) proxies to Beehiiv. Env vars: `BEEHIIV_API_KEY`, `BEEHIIV_PUBLICATION_ID`. List already lives in Beehiiv, no DB.
 
 ## Authoritative Docs
 - docs/superpowers/specs/2026-04-15-personal-brand-site-design.md — product spec
