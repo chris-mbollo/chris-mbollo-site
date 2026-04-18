@@ -3,7 +3,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "functions": {
-    "api/subscribe.js": { "runtime": "nodejs20.x", "maxDuration": 10 }
+    "api/subscribe.js": { "maxDuration": 10 }
   },
   "headers": [
     {
