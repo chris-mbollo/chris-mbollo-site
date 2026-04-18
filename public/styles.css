@@ -347,6 +347,74 @@ section + section { border-top: 1px solid var(--rule); }
 .status-shipped { color: var(--oxblood); }
 .status-progress { color: var(--graphite); }
 
+/* ===== The Service ===== */
+.service-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+.service-copy { max-width: 58ch; }
+.service-copy p + p { margin-top: 1.25em; }
+.service-lede {
+  font-family: var(--font-display);
+  font-size: clamp(1.375rem, 2.2vw, 1.875rem);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  max-width: 30ch;
+  margin-bottom: 1.5rem;
+  text-wrap: balance;
+}
+.service-close em {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--oxblood);
+  font-size: 1.125em;
+}
+.service-card {
+  background: rgba(20, 20, 20, 0.04);
+  border: 1px solid var(--rule);
+  border-radius: 1.5rem;
+  padding: clamp(1.5rem, 2.5vw, 2rem);
+  display: grid;
+  gap: 1.5rem;
+  align-content: start;
+  position: sticky;
+  top: clamp(5rem, 8vw, 7rem);
+}
+.service-specs {
+  display: grid;
+  gap: 0.875rem;
+  margin: 0;
+}
+.service-specs > div {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  align-items: baseline;
+  padding-bottom: 0.875rem;
+  border-bottom: 1px solid var(--rule);
+}
+.service-specs > div:last-child { border-bottom: 0; padding-bottom: 0; }
+.service-specs dt {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--graphite);
+}
+.service-specs dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.service-cta {
+  justify-self: start;
+  margin-top: 0.25rem;
+}
+
 /* ===== Newsletter band ===== */
 .band {
   background:
@@ -758,6 +826,10 @@ body.has-cursor .spotlight { opacity: 1; }
     gap: 1.5rem;
   }
   .project-plaque { max-width: 220px; }
+
+  .service-grid { grid-template-columns: 1fr; }
+  .service-card { position: static; }
+  .service-specs > div { grid-template-columns: 6rem 1fr; }
 
   .band-inner { grid-template-columns: 1fr; }
   .band-copy, .capture-band { grid-column: 1 / -1; }

@@ -65,7 +65,7 @@ const rail = document.querySelector(".rail");
 if (rail && "IntersectionObserver" in window) {
   const dots = new Map();
   rail.querySelectorAll(".rail-dot").forEach((d) => dots.set(d.dataset.section, d));
-  const sections = ["hero", "thesis", "tests", "work", "subscribe"]
+  const sections = ["hero", "thesis", "tests", "work", "service", "subscribe"]
     .map((id) => (id === "hero" ? document.querySelector(".hero") : document.getElementById(id)))
     .filter(Boolean);
   const setActive = (id) => {
