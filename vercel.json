@@ -3,7 +3,8 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "functions": {
-    "api/subscribe.js": { "maxDuration": 10 }
+    "api/subscribe.js": { "maxDuration": 10 },
+    "api/audit.js": { "maxDuration": 10 }
   },
   "headers": [
     {

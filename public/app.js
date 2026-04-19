@@ -189,6 +189,110 @@ if ("IntersectionObserver" in window) {
   revealTargets.forEach((el) => el.classList.add("is-visible"));
 }
 
+// ===== Audit modal: two-stage form + calendar =====
+const auditModal = document.getElementById("audit-modal");
+if (auditModal) {
+  const form = document.getElementById("audit-form");
+  const feedback = auditModal.querySelector(".audit-feedback");
+  const submit = auditModal.querySelector(".audit-submit");
+  const submitLabel = submit ? submit.querySelector(".btn-label") : null;
+  const iframe = auditModal.querySelector("[data-audit-iframe]");
+  const iframeSrc = iframe ? iframe.getAttribute("data-src") : null;
+  let lastFocus = null;
+
+  const setStage = (stage) => {
+    auditModal.querySelectorAll(".audit-stage").forEach((el) => {
+      el.hidden = el.dataset.stage !== stage;
+    });
+    auditModal
+      .querySelectorAll("[data-stage-eyebrow], [data-stage-title], [data-stage-sub]")
+      .forEach((el) => {
+        const key = el.dataset.stageEyebrow || el.dataset.stageTitle || el.dataset.stageSub;
+        el.hidden = key !== stage;
+      });
+    auditModal.classList.toggle("is-calendar", stage === "calendar");
+  };
+
+  const openAudit = () => {
+    lastFocus = document.activeElement;
+    auditModal.hidden = false;
+    requestAnimationFrame(() => auditModal.classList.add("is-open"));
+    auditModal.setAttribute("aria-hidden", "false");
+    setStage("form");
+    if (lenis) lenis.stop(); else document.body.style.overflow = "hidden";
+    const firstInput = form ? form.querySelector("input, textarea") : null;
+    if (firstInput) firstInput.focus({ preventScroll: true });
+  };
+
+  const closeAudit = () => {
+    auditModal.classList.remove("is-open");
+    auditModal.setAttribute("aria-hidden", "true");
+    setTimeout(() => {
+      if (!auditModal.classList.contains("is-open")) auditModal.hidden = true;
+    }, 320);
+    if (lenis) lenis.start(); else document.body.style.overflow = "";
+    if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+  };
+
+  document.querySelectorAll("[data-audit-trigger]").forEach((b) =>
+    b.addEventListener("click", openAudit)
+  );
+  auditModal.querySelectorAll("[data-audit-close]").forEach((b) =>
+    b.addEventListener("click", closeAudit)
+  );
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && auditModal.classList.contains("is-open")) closeAudit();
+  });
+
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!feedback || !submit || !submitLabel) return;
+
+      feedback.classList.remove("is-success");
+      feedback.textContent = "";
+
+      const data = new FormData(form);
+      const platform = (data.get("platform") || "").toString().trim();
+      const audience = (data.get("audience") || "").toString();
+      const gap = (data.get("gap") || "").toString().trim();
+      const email = (data.get("email") || "").toString().trim();
+      const monetization = data.getAll("monetization");
+
+      if (!platform) { feedback.textContent = "Share your main platform and handle."; return; }
+      if (!audience) { feedback.textContent = "Pick an audience size."; return; }
+      if (!gap) { feedback.textContent = "What does your audience keep asking for?"; return; }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        feedback.textContent = "That email does not look right."; return;
+      }
+
+      const originalLabel = submitLabel.textContent;
+      submitLabel.textContent = "Sending";
+      submit.disabled = true;
+
+      try {
+        const res = await fetch("/api/audit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ platform, audience, gap, email, monetization }),
+        });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(body.error || "server_error");
+
+        if (iframe && iframeSrc && !iframe.src) iframe.src = iframeSrc;
+        setStage("calendar");
+      } catch (err) {
+        feedback.textContent = err.message === "invalid_email"
+          ? "That email does not look right."
+          : "Something broke on our end. Try again in a minute.";
+      } finally {
+        submitLabel.textContent = originalLabel;
+        submit.disabled = false;
+      }
+    });
+  }
+}
+
 // ===== Subscribe forms =====
 document.querySelectorAll("form.capture").forEach((form) => {
   const feedback = form.querySelector(".capture-feedback");

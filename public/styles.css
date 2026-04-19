@@ -1111,3 +1111,523 @@ body.has-cursor .spotlight { opacity: 1; }
 @media (max-width: 1024px) {
   body { overflow-x: hidden; }
 }
+
+/* ============================================================ */
+/* AUDIT PAGE (/audit) — funnel + form                          */
+/* ============================================================ */
+
+.page-audit main { padding-top: clamp(8rem, 14vh, 11rem); }
+
+/* HERO */
+.audit-hero {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 5vw, 3rem) clamp(4rem, 8vw, 6rem);
+  text-align: left;
+}
+.audit-hero-headline {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.75rem, 7.5vw, 6rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin: 1rem 0 1.5rem;
+  text-wrap: balance;
+}
+.audit-hero-sub {
+  font-family: var(--font-body);
+  font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 48rem;
+  margin: 0 0 2.5rem;
+  text-wrap: pretty;
+}
+.audit-hero-cta {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+.audit-hero-note {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+/* WHAT YOU GET */
+.audit-get {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: clamp(4rem, 8vw, 6rem) clamp(1.25rem, 5vw, 3rem);
+}
+.audit-get-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+.audit-get-card {
+  position: relative;
+  padding: 2rem 1.75rem 2.25rem;
+  background: var(--paper);
+  border: 1px solid rgba(20, 20, 20, 0.08);
+  border-radius: 1.5rem;
+  box-shadow: 0 1px 0 rgba(20, 20, 20, 0.04), 0 10px 30px -20px rgba(20, 20, 20, 0.12);
+  overflow: hidden;
+  transition: transform 240ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 240ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+.audit-get-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 1px 0 rgba(20, 20, 20, 0.04), 0 18px 40px -18px rgba(20, 20, 20, 0.18);
+}
+.audit-get-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--oxblood);
+  margin: 0 0 1.5rem;
+}
+.audit-get-card h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.375rem;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 0.75rem;
+  text-wrap: balance;
+}
+.audit-get-card p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* HOW IT BREAKS DOWN */
+.audit-break {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: clamp(4rem, 8vw, 6rem) clamp(1.25rem, 5vw, 3rem);
+}
+.audit-break-list {
+  list-style: none;
+  counter-reset: none;
+  padding: 0;
+  margin: 2.5rem 0 0;
+  display: grid;
+  gap: 1.25rem;
+}
+.audit-break-list li {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: 2rem;
+  padding: 1.75rem 0;
+  border-top: 1px solid rgba(20, 20, 20, 0.1);
+  align-items: start;
+}
+.audit-break-list li:last-child {
+  border-bottom: 1px solid rgba(20, 20, 20, 0.1);
+}
+.audit-break-range {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  color: var(--oxblood);
+  padding-top: 0.35rem;
+  font-variant-numeric: tabular-nums;
+}
+.audit-break-list h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  color: var(--ink);
+  margin: 0 0 0.5rem;
+  text-wrap: balance;
+}
+.audit-break-list p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0;
+  max-width: 40rem;
+}
+@media (max-width: 720px) {
+  .audit-break-list li {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* FIT */
+.audit-fit {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: clamp(4rem, 8vw, 6rem) clamp(1.25rem, 5vw, 3rem);
+}
+.audit-fit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+.audit-fit-card {
+  padding: 2rem 1.75rem 2.25rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(20, 20, 20, 0.1);
+  background: var(--paper);
+}
+.audit-fit-card h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.25rem;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  margin: 0 0 1.25rem;
+}
+.audit-fit-yes h3 { color: var(--oxblood); }
+.audit-fit-no h3 { color: var(--muted); }
+.audit-fit-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+.audit-fit-card li {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink);
+  padding-left: 1.25rem;
+  position: relative;
+}
+.audit-fit-yes li::before,
+.audit-fit-no li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  width: 0.5rem;
+  height: 1px;
+  background: var(--oxblood);
+}
+.audit-fit-no li::before { background: rgba(20, 20, 20, 0.25); }
+
+/* PRICING */
+.audit-price {
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: clamp(4rem, 8vw, 6rem) clamp(1.25rem, 5vw, 3rem);
+}
+.audit-price-card {
+  margin-top: 2.5rem;
+  padding: clamp(2rem, 4vw, 3rem);
+  background: var(--paper);
+  border: 1px solid rgba(20, 20, 20, 0.1);
+  border-radius: 1.75rem;
+  box-shadow: 0 1px 0 rgba(20, 20, 20, 0.04), 0 20px 50px -24px rgba(20, 20, 20, 0.18);
+  position: relative;
+  overflow: hidden;
+}
+.audit-price-headline {
+  display: flex;
+  align-items: baseline;
+  gap: 0.875rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid rgba(20, 20, 20, 0.1);
+}
+.audit-price-number {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(3.5rem, 7vw, 5rem);
+  line-height: 0.9;
+  letter-spacing: -0.025em;
+  color: var(--oxblood);
+  font-variant-numeric: tabular-nums;
+}
+.audit-price-unit {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-transform: lowercase;
+}
+.audit-price-specs {
+  margin-bottom: 2rem;
+}
+.audit-price .audit-cta-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* FINAL CTA BAND */
+.audit-final {
+  background: var(--espresso);
+  color: var(--paper);
+  padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 5vw, 3rem);
+  margin-top: clamp(4rem, 8vw, 6rem);
+}
+.audit-final-inner {
+  max-width: 48rem;
+  margin: 0 auto;
+  text-align: left;
+}
+.audit-final-headline {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  margin: 1rem 0 2.5rem;
+  text-wrap: balance;
+}
+
+/* ============================================================ */
+/* AUDIT MODAL: two-stage, form then calendar                   */
+/* ============================================================ */
+
+.audit-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 280ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+.audit-modal.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.audit-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 19, 16, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.audit-modal-shell {
+  position: relative;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 3vw, 2rem);
+  overflow-y: auto;
+}
+.audit-modal-core {
+  width: min(44rem, 100%);
+  max-height: calc(100dvh - clamp(2rem, 6vw, 4rem));
+  background: var(--paper);
+  border-radius: 1.5rem;
+  box-shadow: 0 40px 80px -20px rgba(20, 20, 20, 0.45), 0 1px 0 rgba(255, 255, 255, 0.4) inset;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(10px) scale(0.98);
+  opacity: 0;
+  transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1), opacity 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  overflow: hidden;
+}
+.audit-modal.is-open .audit-modal-core {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+.audit-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.75rem 1.75rem 1.25rem;
+  border-bottom: 1px solid rgba(20, 20, 20, 0.08);
+}
+.audit-modal-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0.5rem 0 0.5rem;
+}
+.audit-modal-sub {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0;
+}
+.audit-modal-close {
+  background: transparent;
+  border: 1px solid rgba(20, 20, 20, 0.12);
+  border-radius: 999px;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 200ms cubic-bezier(0.32, 0.72, 0, 1), border-color 200ms;
+  flex: none;
+}
+.audit-modal-close:hover {
+  background: rgba(20, 20, 20, 0.06);
+  border-color: rgba(20, 20, 20, 0.2);
+}
+
+/* Stage 1: form */
+.audit-stage { overflow-y: auto; }
+.audit-form {
+  padding: 1.75rem;
+  display: grid;
+  gap: 1.5rem;
+}
+.audit-field {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+.audit-label {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--ink);
+  cursor: default;
+}
+.audit-label-num {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: var(--oxblood);
+  flex: none;
+}
+.audit-label-text {
+  font-weight: 500;
+  color: var(--ink);
+  flex: 1;
+}
+.audit-label-hint {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.audit-field input[type="text"],
+.audit-field input[type="email"],
+.audit-field textarea {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid rgba(20, 20, 20, 0.15);
+  border-radius: 0.75rem;
+  padding: 0.8rem 0.95rem;
+  transition: border-color 180ms, box-shadow 180ms;
+}
+.audit-field input[type="text"]:focus,
+.audit-field input[type="email"]:focus,
+.audit-field textarea:focus {
+  outline: none;
+  border-color: var(--oxblood);
+  box-shadow: 0 0 0 3px rgba(107, 31, 42, 0.12);
+}
+.audit-field textarea {
+  resize: vertical;
+  min-height: 6.5rem;
+}
+.audit-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+.audit-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.95rem;
+  border: 1px solid rgba(20, 20, 20, 0.15);
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 180ms, background 180ms, color 180ms;
+  user-select: none;
+}
+.audit-choice input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.audit-choice:hover {
+  border-color: rgba(20, 20, 20, 0.3);
+}
+.audit-choice:has(input:checked) {
+  background: var(--oxblood);
+  border-color: var(--oxblood);
+  color: var(--paper);
+}
+.audit-form-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(20, 20, 20, 0.08);
+  padding-top: 1.25rem;
+  margin-top: 0.25rem;
+}
+.audit-submit {
+  justify-content: center;
+}
+.audit-feedback {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  color: var(--oxblood);
+  margin: 0;
+  min-height: 1.1rem;
+}
+.audit-feedback.is-success { color: var(--ink); }
+
+/* Stage 2: calendar */
+.audit-calendar {
+  position: relative;
+  width: 100%;
+  height: min(72dvh, 48rem);
+  background: #fff;
+}
+.audit-calendar iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.audit-calendar-loader {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  background: var(--paper);
+  pointer-events: none;
+}
+.audit-modal.is-calendar .audit-calendar-loader { opacity: 0; transition: opacity 600ms; }
