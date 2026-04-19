@@ -314,17 +314,11 @@
           </form>
         </div>
 
-        <!-- STAGE 2: CALENDAR -->
+        <!-- STAGE 2: CALENDAR (Cal.com inline embed, themed) -->
         <div class="audit-stage" data-stage="calendar" hidden>
           <div class="audit-calendar">
             <div class="audit-calendar-loader" aria-hidden="true">Loading the calendar</div>
-            <iframe
-              data-audit-iframe
-              title="Book a call"
-              loading="lazy"
-              data-src="https://calendar.zoho.com/eventreqForm/zz08011230a2541c6ff9518fe4cb9b30081e05a7ef159484d5716f94027f39f8901e7ad7d2cebfda3fcca4c1eb1c27bbe45aa6f3ed?theme=0&l=en&tz=America%2FLos_Angeles"
-              allowtransparency="true"
-            ></iframe>
+            <div id="cal-embed" class="cal-embed" aria-label="Booking calendar"></div>
           </div>
         </div>
       </div>

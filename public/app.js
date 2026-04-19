@@ -196,9 +196,72 @@ if (auditModal) {
   const feedback = auditModal.querySelector(".audit-feedback");
   const submit = auditModal.querySelector(".audit-submit");
   const submitLabel = submit ? submit.querySelector(".btn-label") : null;
-  const iframe = auditModal.querySelector("[data-audit-iframe]");
-  const iframeSrc = iframe ? iframe.getAttribute("data-src") : null;
+  const calMount = auditModal.querySelector("#cal-embed");
+  let calInited = false;
   let lastFocus = null;
+
+  const loadCalEmbed = () => new Promise((resolve, reject) => {
+    if (window.Cal && window.Cal.ns && window.Cal.ns.audit) return resolve(window.Cal);
+    (function (C, A, L) {
+      let p = function (a, ar) { a.q.push(ar); };
+      let d = C.document;
+      C.Cal = C.Cal || function () {
+        let cal = C.Cal, ar = arguments;
+        if (!cal.loaded) {
+          cal.ns = {}; cal.q = cal.q || [];
+          d.head.appendChild(d.createElement("script")).src = A;
+          cal.loaded = true;
+        }
+        if (ar[0] === L) {
+          const api = function () { p(api, arguments); };
+          const namespace = ar[1];
+          api.q = api.q || [];
+          if (typeof namespace === "string") {
+            cal.ns[namespace] = cal.ns[namespace] || api;
+            p(cal.ns[namespace], ar);
+            p(cal, ["initNamespace", namespace]);
+          } else p(cal, ar);
+          return;
+        }
+        p(cal, ar);
+      };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
+    const check = () => {
+      if (window.Cal && window.Cal.ns && typeof window.Cal.ns.audit === "function") resolve(window.Cal);
+      else setTimeout(check, 40);
+    };
+    window.Cal("init", "audit", { origin: "https://cal.com" });
+    check();
+  });
+
+  const initCal = (email) => {
+    if (!calMount) return;
+    if (calInited) return;
+    calInited = true;
+    loadCalEmbed().then(() => {
+      window.Cal.ns.audit("inline", {
+        elementOrSelector: "#cal-embed",
+        calLink: "chrismbollo/audit",
+        layout: "month_view",
+        config: email ? { email } : {},
+      });
+      window.Cal.ns.audit("ui", {
+        theme: "light",
+        cssVarsPerTheme: {
+          light: {
+            "cal-brand": "#6B1F2A",
+            "cal-text": "#141414",
+            "cal-text-emphasis": "#141414",
+            "cal-bg": "#F7F5F0",
+            "cal-bg-emphasis": "#EFEAE0",
+            "cal-border": "#E3DED2",
+            "cal-border-emphasis": "#C9C1AE",
+          },
+        },
+        hideEventTypeDetails: false,
+      });
+    }).catch(() => { calInited = false; });
+  };
 
   const setStage = (stage) => {
     auditModal.querySelectorAll(".audit-stage").forEach((el) => {
@@ -279,7 +342,7 @@ if (auditModal) {
         const body = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(body.error || "server_error");
 
-        if (iframe && iframeSrc && !iframe.src) iframe.src = iframeSrc;
+        initCal(email);
         setStage("calendar");
       } catch (err) {
         feedback.textContent = err.message === "invalid_email"
