@@ -1,0 +1,6 @@
+# https://www.chrismbollo.com/robots.txt
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://www.chrismbollo.com/sitemap.xml
