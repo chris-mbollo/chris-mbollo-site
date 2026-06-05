@@ -260,6 +260,17 @@
       <hr class="divider" />
 
       <form id="ft-form" novalidate>
+        <label class="form-label" for="ft-name">First name</label>
+        <input
+          id="ft-name"
+          class="email-input"
+          type="text"
+          name="name"
+          placeholder="Your first name"
+          autocomplete="given-name"
+          required
+          style="width:100%;margin-bottom:0.75rem;"
+        />
         <label class="form-label" for="ft-email">Where do I send your access?</label>
         <div class="input-row">
           <input
@@ -289,6 +300,7 @@
     const WEBINAR_URL = 'https://millionairepartnership.com/webclass-d24#aff=TrinidadW';
 
     const form = document.getElementById('ft-form');
+    const nameInput = document.getElementById('ft-name');
     const emailInput = document.getElementById('ft-email');
     const btn = form.querySelector('button[type="submit"]');
     const errBox = document.getElementById('ft-error');
@@ -297,7 +309,9 @@
       e.preventDefault();
       errBox.style.display = 'none';
 
+      const name = nameInput.value.trim();
       const email = emailInput.value.trim();
+      if (!name) { nameInput.focus(); return; }
       if (!email) { emailInput.focus(); return; }
 
       btn.disabled = true;
@@ -307,7 +321,7 @@
         const res = await fetch('/api/freetraining', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email }),
+          body: JSON.stringify({ name, email }),
         });
 
         if (res.ok) {

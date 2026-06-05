@@ -8,6 +8,9 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "method_not_allowed" });
   }
 
+  const firstName = (req.body?.name || "").trim().slice(0, 100);
+  if (!firstName) return res.status(400).json({ error: "name_required" });
+
   let email;
   try {
     email = validateEmail(req.body?.email);
@@ -33,6 +36,7 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           email,
+          first_name: firstName,
           reactivate_existing: true,
           send_welcome_email: false,
           utm_source: "freetraining",
