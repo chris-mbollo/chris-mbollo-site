@@ -4,7 +4,8 @@
   "trailingSlash": false,
   "functions": {
     "api/subscribe.js": { "maxDuration": 10 },
-    "api/audit.js": { "maxDuration": 10 }
+    "api/audit.js": { "maxDuration": 10 },
+    "api/freetraining.js": { "maxDuration": 10 }
   },
   "headers": [
     {
